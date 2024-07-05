@@ -6,9 +6,7 @@ namespace {{.NameSpace}};
 class {{.ClassName}} {
 
     public function __construct(
-        {{range .Fields}}
-        {{.}}
-        {{end}}
+        {{range .Fields}} public {{.Type}} ${{.Name}},{{end}}
     )
     {
 

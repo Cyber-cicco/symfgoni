@@ -13,6 +13,8 @@ type Config struct {
 	JsonController  string `json:"json_controller"`
 	HtmlController  string `json:"html_controller"`
 	Service         string `json:"service"`
+	Repository      string `json:"repository"`
+	Mapper          string `json:"mapper"`
 	Transient       bool   `json:"-"`
 }
 
@@ -49,14 +51,14 @@ func getConfig(file []byte, err error) *Config {
 }
 
 func handleConfigError() *Config {
-    //mut
+	//mut
 	var response string
-    //mut
+	//mut
 	config := getDefaultConfig()
 
 	for response != "y" && response != "Y" && response != "n" && response != "N" {
 		fmt.Println("Config file not found. Do you wish to create it ? (Y/N)")
-        //mutation
+		//mutation
 		fmt.Scanln(&response)
 	}
 
@@ -68,7 +70,7 @@ func handleConfigError() *Config {
 		}
 
 		newFile, err := os.Create(CONFIG_FILE_URL)
-        defer newFile.Close()
+		defer newFile.Close()
 
 		if err != nil {
 			panic("Couldn't create config file. Exiting")
@@ -77,8 +79,8 @@ func handleConfigError() *Config {
 		config = getDefaultConfig()
 		confBytes, _ := json.MarshalIndent(config, "", "  ")
 		newFile.Write(confBytes)
-        //mutation
-        config.Transient = false
+		//mutation
+		config.Transient = false
 	}
 
 	return config
@@ -96,20 +98,7 @@ func getDefaultConfig() *Config {
 	}
 }
 
-func InitDto() error {
-
-	dtoPath := CONFIG.SourceDirectory + CONFIG.Dto
-	_, err := os.Stat(dtoPath)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-
-}
-
 func WriteConfigFile() {
-    confBytes, _ := json.MarshalIndent(CONFIG, "", "  ")
-    os.WriteFile(CONFIG_FILE_URL, confBytes, 0666)
+	confBytes, _ := json.MarshalIndent(CONFIG, "", "  ")
+	os.WriteFile(CONFIG_FILE_URL, confBytes, 0666)
 }

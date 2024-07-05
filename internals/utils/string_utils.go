@@ -10,7 +10,7 @@ func ConvertPathToNameSpace(path string) string {
         }
         buff[i] = path[i]
     }
-    return string(buff)
+    return "App\\" + string(buff)
 }
 
 func getStrLen(path string) int {
