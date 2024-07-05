@@ -1,0 +1,8 @@
+{
+    "source_directory": "./src/",
+    "entity": "Entity/",
+    "dto": "Types/Dtos/",
+    "json_controller": "Controller/Json/",
+    "html_controller": "Controller/Html/",
+    "service": "Service/"
+}
