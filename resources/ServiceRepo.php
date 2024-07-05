@@ -5,7 +5,7 @@ namespace {{.NameSpace}};
 use {{.RepositoryNS}}\{{.ClassName}}Repository;
 use {{.MapperNS}}\{{.ClassName}}Mapper;
 
-class {{.ClassName}}
+class {{.ClassName}}Service
 {
 
     public function __construct(

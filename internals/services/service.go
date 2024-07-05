@@ -1,11 +1,9 @@
 package services
 
 import (
-	"fmt"
 	"fr/diginamic/go-cap/internals/config"
 	"fr/diginamic/go-cap/internals/types"
 	"fr/diginamic/go-cap/internals/utils"
-	"os"
 )
 
 func WriteService(serviceName string) {
@@ -17,7 +15,7 @@ func WriteService(serviceName string) {
 		ClassName: serviceName,
 	}
 
-	tplBytes := getTmpleBytes(serviceName, "Service.php", service)
+	tplBytes := getTmplBytes(serviceName, "Service.php", service)
 	path := SRC + CONF.Service + serviceName + "Service.php"
 	createFile(tplBytes, path)
 
@@ -29,7 +27,10 @@ func WriteServiceLinkedToEntity(entityName string) {
     checkDirectoryExists[ENTITY]()
     checkDirectoryExists[MAPPER]()
     checkDirectoryExists[REPOSITORY]()
-    checkDependencies(entityName)
+    checkDependencies([]string{
+        CONF.Mapper,
+        CONF.Repository,
+    },entityName)
 
 	service := types.ServiceFile{
 		NameSpace: utils.ConvertPathToNameSpace(CONF.Service),
@@ -38,26 +39,9 @@ func WriteServiceLinkedToEntity(entityName string) {
         MapperNS: utils.ConvertPathToNameSpace(CONF.Mapper),
 	}
 
-	tplBytes := getTmpleBytes(entityName, "ServiceRepo.php", service)
+	tplBytes := getTmplBytes(entityName, "ServiceRepo.php", service)
 	path := SRC + CONF.Service + entityName + "Service.php"
 	createFile(tplBytes, path)
 
 }
 
-func checkDependencies(entityName string) {
-    suffixes := map[string]string{
-        CONF.Mapper : "Mapper.php",
-        CONF.Entity : ".php",
-        CONF.Repository : "Repository.php",
-    }
-
-    for k, v := range suffixes {
-        _, err := os.Stat(SRC + k + entityName + v)
-        
-        if err != nil {
-            fmt.Println(SRC + k + entityName + v)
-            fmt.Printf("required dependency %s wasn't found. Make sure it exists before creating the service\n", entityName + v)
-            os.Exit(1)
-        }
-    }
-}

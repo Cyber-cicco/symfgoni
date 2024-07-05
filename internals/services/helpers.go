@@ -11,6 +11,8 @@ import (
 
 const (
 	DTO = iota
+	JSON_CONTROLLER
+	HTML_CONTROLLER
 	SERVICE
 	ENTITY
 	REPOSITORY
@@ -20,6 +22,13 @@ const (
 var checkDirectoryExists map[int]func() = map[int]func(){}
 var CONF = config.CONFIG
 var SRC = config.CONFIG.SourceDirectory
+var SUFFIXES = map[string]string{
+	CONF.Mapper:     "Mapper.php",
+	CONF.Service:     "Service.php",
+	CONF.Dto:     "Dto.php",
+	CONF.Entity:     ".php",
+	CONF.Repository: "Repository.php",
+}
 
 func init() {
 	checkDirectoryExists[DTO] = func() {
@@ -57,6 +66,20 @@ func init() {
 			})
 		}
 	}
+	checkDirectoryExists[HTML_CONTROLLER] = func() {
+		if _, err := os.Stat(SRC + CONF.HtmlController); err != nil {
+			askCustomDir("Service", func(dir string) {
+				CONF.HtmlController = dir
+			})
+		}
+	}
+	checkDirectoryExists[JSON_CONTROLLER] = func() {
+		if _, err := os.Stat(SRC + CONF.JsonController); err != nil {
+			askCustomDir("Service", func(dir string) {
+				CONF.JsonController = dir
+			})
+		}
+	}
 }
 
 // MUTATES CONFIG
@@ -81,21 +104,23 @@ func createFile(content *bytes.Buffer, path string) {
 	var choice string
 
 	for FileExists(path) &&
-		strings.ToLower(choice)!= "y" &&
-		strings.ToLower(choice)!= "n" {
-        fmt.Println("File already exists. Do you wish to override it ? (y/n)")
-        fmt.Scanln(&choice)
+		strings.ToLower(choice) != "y" &&
+		strings.ToLower(choice) != "n" {
+		fmt.Println("File already exists. Do you wish to override it ? (y/n)")
+		fmt.Scanln(&choice)
 	}
 
-    if strings.ToLower(choice) == "n" {
-        os.Exit(0)
-    }
+	if strings.ToLower(choice) == "n" {
+		os.Exit(0)
+	}
 
 	f, err := os.OpenFile(path, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
 	defer f.Close()
+
 	if err != nil {
 		panic(err)
 	}
+
 	f.Write(content.Bytes())
 }
 
@@ -110,7 +135,7 @@ func FileExists(path string) bool {
 	return true
 }
 
-func getTmpleBytes(mainClass, tmplUrl string, data any) *bytes.Buffer {
+func getTmplBytes(mainClass, tmplUrl string, data any) *bytes.Buffer {
 	//mut
 	var tplBytes bytes.Buffer
 
@@ -126,4 +151,17 @@ func getTmpleBytes(mainClass, tmplUrl string, data any) *bytes.Buffer {
 	}
 
 	return &tplBytes
+}
+
+func checkDependencies(pathsToCheck []string, entityName string) {
+
+	for _, path := range pathsToCheck {
+		_, err := os.Stat(SRC + path + entityName + SUFFIXES[path])
+
+		if err != nil {
+			fmt.Println(SRC + path + entityName + SUFFIXES[path])
+			fmt.Printf("required dependency %s wasn't found. Make sure it exists before creating the service\n", entityName+path)
+			os.Exit(1)
+		}
+	}
 }

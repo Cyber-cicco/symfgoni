@@ -15,7 +15,7 @@ var dtoCmd = &cobra.Command{
 	Use:   "dto",
 	Short: "Permet de générer une classe DTO, et éventuellement un mapper",
 	Long: `
-    Crée un dto en précisant le nom et les champs avec des flags flags
+    Crée un dto en précisant le nom et les champs avec des flags 
   `,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
@@ -28,6 +28,6 @@ var dtoCmd = &cobra.Command{
 
 func init() {
 	dtoCmd.Flags().StringVarP(&dtoFields, "fields", "f", "", "Liste des champs de la classe. Chaque se construit de la façon suivante : 'nom:type'")
-	dtoCmd.Flags().StringVarP(&dtoFields, "name", "n", "", "Le nom du DTO")
+	dtoCmd.Flags().StringVarP(&dtoName, "name", "n", "", "Le nom du DTO")
     dtoCmd.MarkFlagRequired("name")
 }

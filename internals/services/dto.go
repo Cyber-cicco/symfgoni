@@ -15,7 +15,6 @@ func WriteDTO(arg string, fieldFlag string) {
 
 	fields := createFields(fieldFlag)
 
-
     mainClass := arg + "Dto"
 
     dto := types.DtoFile{
@@ -24,7 +23,7 @@ func WriteDTO(arg string, fieldFlag string) {
         Fields:    fields,
     }
 
-    tplBytes := getTmpleBytes(mainClass, "Dto.php", dto)
+    tplBytes := getTmplBytes(mainClass, "Dto.php", dto)
     path := config.CONFIG.SourceDirectory + config.CONFIG.Dto + mainClass + ".php"
     createFile(tplBytes, path)
 }
