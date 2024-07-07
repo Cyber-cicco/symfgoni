@@ -7,20 +7,38 @@ type DtoFile struct {
 	Fields    []Field
 }
 
-type BasicJsonController struct {
+type BasicController struct {
 	NameSpace string
 	ClassName string
 	Route     string
 	RouteName string
 }
 
-type AdvancedJsonController struct {
+type AdvHtmlController struct {
 	NameSpace    string
 	ClassName    string
 	Route        string
 	RouteName    string
+	TemplateName string
 	ServiceNS    string
 	RepositoryNS string
+}
+
+type HtmlController struct {
+	NameSpace    string
+	ClassName    string
+	Route        string
+	RouteName    string
+	TemplateName string
+}
+
+type AdvancedJsonController struct {
+	NameSpace string
+	ClassName string
+	Route     string
+	RouteName string
+	ServiceNS string
+	MapperNS  string
 }
 
 type File struct {

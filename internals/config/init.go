@@ -15,6 +15,9 @@ type Config struct {
 	Service         string `json:"service"`
 	Repository      string `json:"repository"`
 	Mapper          string `json:"mapper"`
+	TemplateDir     string `json:"template_directory"`
+	Page            string `json:"page"`
+	Svg             string `json:"svg"`
 	Transient       bool   `json:"-"`
 }
 

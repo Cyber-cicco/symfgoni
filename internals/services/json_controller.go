@@ -9,10 +9,10 @@ func WriteJsonController(ctrlName string) {
 
     checkDirectoryExists[JSON_CONTROLLER]()
 
-	controller := types.BasicJsonController{
+	controller := types.BasicController{
 		NameSpace: utils.ConvertPathToNameSpace(CONF.JsonController),
 		ClassName: ctrlName,
-        Route: utils.ConvertNameToRoute(ctrlName),
+        Route: "/api" + utils.ConvertNameToRoute(ctrlName),
         RouteName: utils.ConvertNameToRouteName(ctrlName),
 	}
 
@@ -27,6 +27,7 @@ func WriteJsonControllerWithServ(ctrlName string) {
     checkDirectoryExists[JSON_CONTROLLER]()
     checkDirectoryExists[SERVICE]()
     checkDirectoryExists[ENTITY]()
+    checkDirectoryExists[MAPPER]()
     checkDirectoryExists[DTO]()
     checkDependencies([]string{
         CONF.Service,
@@ -38,7 +39,7 @@ func WriteJsonControllerWithServ(ctrlName string) {
         Route: utils.ConvertNameToRoute(ctrlName),
         RouteName: utils.ConvertNameToRouteName(ctrlName),
         ServiceNS: utils.ConvertPathToNameSpace(CONF.Service),
-        RepositoryNS: utils.ConvertPathToNameSpace(CONF.Repository),
+        MapperNS: utils.ConvertPathToNameSpace(CONF.Mapper),
     }
 	tmplBytes := getTmplBytes(ctrlName, "JsonControllerService.php", controller)
 	path := SRC + CONF.JsonController + ctrlName + "Controller.php"

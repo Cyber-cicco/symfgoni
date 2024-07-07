@@ -24,8 +24,8 @@ var CONF = config.CONFIG
 var SRC = config.CONFIG.SourceDirectory
 var SUFFIXES = map[string]string{
 	CONF.Mapper:     "Mapper.php",
-	CONF.Service:     "Service.php",
-	CONF.Dto:     "Dto.php",
+	CONF.Service:    "Service.php",
+	CONF.Dto:        "Dto.php",
 	CONF.Entity:     ".php",
 	CONF.Repository: "Repository.php",
 }
@@ -121,7 +121,9 @@ func createFile(content *bytes.Buffer, path string) {
 		panic(err)
 	}
 
-	f.Write(content.Bytes())
+    if content != nil {
+        f.Write(content.Bytes())
+    }
 }
 
 func FileExists(path string) bool {

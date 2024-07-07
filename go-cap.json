@@ -1,13 +1,13 @@
 {
     "source_directory": "./src/",
-    "template_directory": "./templates/",
     "entity": "Entity/",
     "dto": "Types/Dtos/",
     "repository": "Repository/",
     "mapper": "Mapper/",
     "json_controller": "Controller/Json/",
     "html_controller": "Controller/Html/",
-    "svg" : "svg/",
     "service": "Service/",
+    "template_directory": "./templates/",
+    "svg" : "svg/",
     "page" : "page/"
 }

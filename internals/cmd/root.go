@@ -29,4 +29,5 @@ func init() {
     rootCmd.AddCommand(dtoCmd)
     rootCmd.AddCommand(srvCmd)
     rootCmd.AddCommand(ctrlJCmd)
+    rootCmd.AddCommand(ctrlHCmd)
 }
